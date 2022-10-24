@@ -1,0 +1,667 @@
+local Config = {
+    WindowName = "tullyhack premium",
+	Color = Color3.fromRGB(128,0,128),
+	Keybind = Enum.KeyCode.Insert
+}
+local plr = game.Players.LocalPlayer
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/AlexR32/Roblox/main/BracketV3.lua"))()
+local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
+
+local Tab1 = Window:CreateTab("Fly")
+local Tab2 = Window:CreateTab("Visual")
+local Tab3 = Window:CreateTab("TC2")
+local Tab4 = Window:CreateTab("UI Settings")
+
+local Section1 = Tab1:CreateSection("Fly")
+local Section2 = Tab2:CreateSection("Visuals")
+local Section5 = Tab2:CreateSection("ESP")
+local Section3 = Tab3:CreateSection("Typical Colors 2")
+local Section4 = Tab4:CreateSection("Background")
+
+--local Label1 = Section1:CreateLabel("Label 1")
+--Label1:UpdateText("lol")
+-------------
+
+-------------Fly
+local flyEnabled
+local flyLag
+local flyType
+local flySpeed
+
+local Toggle1 = Section1:CreateToggle("Enabled", nil, function(State)
+	flyEnabled = State
+end)
+Toggle1:AddToolTip("Enable fly")
+Toggle1:CreateKeybind("F", function(Key)
+	--print(Key)
+end)
+
+local speed = Section1:CreateSlider("Speed", 0,300,nil,true, function(Value)
+	flySpeed = Value
+end)
+speed:AddToolTip("Fly speed")
+speed:SetValue(50)
+
+-------------
+local Slider1 = Section1:CreateSlider("Lag", 0,100,nil,true, function(Value)
+	flyLag = Value
+end)
+Slider1:AddToolTip("How much lag while flying (low = more lag)")
+Slider1:SetValue(2)
+-------------
+local Dropdown1 = Section1:CreateDropdown("Type", {"Velocity","Noclip"}, function(String)
+	flyType = String
+end)
+Dropdown1:AddToolTip("Fly mode")
+Dropdown1:SetOption("Velocity")
+-------------Visuals
+
+
+local visweapon
+local visweaponcolor
+local visweapontype
+local visChams
+local teamonly
+local visfov
+
+local espon
+local espname
+local esphealth
+local espstatus
+local espcolor
+local espignore
+local espnamesize
+local esphealthsize
+local espfont
+local espfontsize
+
+local weapon = Section2:CreateToggle("Weapon", nil, function(State)
+	visweapon = State
+end)
+weapon:AddToolTip("Change the weapons property")
+
+
+local colorr = Section2:CreateColorpicker("Weapon Color", function(Color)
+	visweaponcolor = Color
+end)
+colorr:AddToolTip("Weapon Color")
+
+local weapontype = Section2:CreateDropdown("Weapon Material", {"Neon","Plastic","ForceField"}, function(String)
+	visweapontype = String
+end)
+weapontype:AddToolTip("Weapon Material")
+weapontype:SetOption("ForceField")
+
+
+local chams = Section2:CreateToggle("Chams", nil, function(State)
+	visChams = State
+end)
+chams:AddToolTip("Enable chams")
+local team = Section2:CreateToggle("Ignore team", nil, function(State)
+    teamonly = State
+end)
+team:AddToolTip("Displays your teams chams if on")
+
+
+local box = Instance.new("BoxHandleAdornment", workspace)
+local reload = Section2:CreateButton("Reload Chams", function()
+        for _,v in next, game:GetService("Players"):GetPlayers() do
+            if v.Name ~= plr.Name then
+                for _,b in next, v.Character:GetChildren() do
+                    if not b:FindFirstChild("BoxHandleAdornment") then
+                        if b:IsA("MeshPart") or b.Name == "Head" or b.Name == "Torso" or b.Name == "LeftArm" or b.Name == "RightArm" or b.Name == "LeftLeg" or b.Name == "RightLeg" then
+                            --b.Transparency = 0
+                            local box2 = box:Clone()
+                            box2.Parent = b
+                            box2.AlwaysOnTop = true
+                            box2.Adornee = b
+                            box2.Size = b.Size * 1.1
+                            if b.Name == "Head" then
+                                box2.Color3 = Color3.new(1, 1, 0);
+                            else
+                                box2.Color3 = Color3.new(1, 0, 0);
+                            end
+                            if b.Name == "HumanoidRootPart" or b.Name == "UpperTorso" or b.Name == "LowerTorso" or b.Name == "Torso" then
+                                box2.Color3 = v.TeamColor.Color
+                            end
+                            box2.ZIndex = 9
+                            box2.Visible = false
+                        end
+                    end
+                end
+            end
+        end
+end)
+reload:AddToolTip("Click this if new people join")
+local scope = Section2:CreateButton("Remove scope", function()
+	if game.GameId == 286090429 then
+        plr.PlayerGui.GUI.Crosshairs.Scope.Image = 0
+        plr.PlayerGui.GUI.Crosshairs.Scope.Scope.Image = 0
+        plr.PlayerGui.GUI.Crosshairs.Frame3.BackgroundTransparency = 1
+        plr.PlayerGui.GUI.Crosshairs.Frame2.BackgroundTransparency = 1
+        plr.PlayerGui.GUI.Crosshairs.Frame1.BackgroundTransparency = 1
+        plr.PlayerGui.GUI.Crosshairs.Frame4.BackgroundTransparency = 1
+    elseif game.GameId == 147332621 then
+        plr.PlayerGui.GUI.Crosshairs.Scope.Image = 0
+        plr.PlayerGui.GUI.Crosshairs.Scope.Scope.Image = 0
+        plr.PlayerGui.GUI.Crosshairs.Frame3.BackgroundTransparency = 1
+        plr.PlayerGui.GUI.Crosshairs.Frame2.BackgroundTransparency = 1
+        plr.PlayerGui.GUI.Crosshairs.Frame1.BackgroundTransparency = 1
+        plr.PlayerGui.GUI.Crosshairs.Frame4.BackgroundTransparency = 1
+    elseif game.GameId == 301549746 then
+        plr.PlayerGui.GUI.Crosshairs.Scope.Image = 0
+        plr.PlayerGui.GUI.Crosshairs.Scope.Scope.Image = 0
+        plr.PlayerGui.GUI.Crosshairs.Frame3.BackgroundTransparency = 1
+        plr.PlayerGui.GUI.Crosshairs.Frame2.BackgroundTransparency = 1
+        plr.PlayerGui.GUI.Crosshairs.Frame1.BackgroundTransparency = 1
+        plr.PlayerGui.GUI.Crosshairs.Frame4.BackgroundTransparency = 1
+    end
+end)
+scope:AddToolTip("Remove the scope")
+
+
+
+local fov = Section2:CreateSlider("Fov", 0,120,nil,true, function(Value)
+    workspace.CurrentCamera.FieldOfView = Value
+    visfov = Value
+end)
+fov:SetValue(100)
+
+
+local gui = Instance.new("BillboardGui")
+local nameNAME = Instance.new("TextLabel",gui)
+local nameHEALTH = Instance.new("TextLabel",gui)
+local nameSTATUS = Instance.new("TextLabel",gui)
+
+local ESP = Section5:CreateToggle("ESP", nil, function(State)
+	espon = State
+end)
+ESP:AddToolTip("Enable ESP")
+
+local espnamee = Section5:CreateToggle("Name", nil, function(State)
+	espname = State
+end)
+espnamee:AddToolTip("Displays name over head")
+
+local espnamee = Section5:CreateToggle("Health", nil, function(State)
+	esphealth = State
+end)
+espnamee:AddToolTip("Displays health on the side")
+
+local espnamee = Section5:CreateToggle("Status", nil, function(State)
+	espstatus = State
+end)
+espnamee:AddToolTip("Displays the status of the target")
+
+local ignoreteam = Section5:CreateToggle("Ignore Team", nil, function(State)
+    espignore = State
+end)
+ignoreteam:AddToolTip("Shows your teams esp if on")
+
+local espnamesizee = Section5:CreateSlider("Name Size", 1,30,nil,true, function(Value)
+	espnamesize = Value
+end)
+espnamesizee:AddToolTip("Name text size")
+espnamesizee:SetValue(11)
+
+local esphealthsizee = Section5:CreateSlider("Health Size", 1,30,nil,true, function(Value)
+	esphealthsize = Value
+end)
+esphealthsizee:AddToolTip("Health text size")
+esphealthsizee:SetValue(11)
+
+local espfontsizee = Section5:CreateSlider("Status Size", 1,30,nil,true, function(Value)
+	espfontsize = Value
+end)
+espfontsizee:AddToolTip("Status text size")
+espfontsizee:SetValue(11)
+
+
+
+local espcolorr = Section5:CreateColorpicker("Name Color", function(Color)
+	espcolor = Color
+end)
+espcolorr:AddToolTip("Weapon Color")
+espcolorr:UpdateColor(Color3.new(1,1,1))
+
+local espfontt = Section5:CreateDropdown("Text Font", {"Code","GothamSemibold","ArialBold","Ubuntu"}, function(String)
+	espfont = String
+end)
+espfontt:AddToolTip("Text Font")
+espfontt:SetOption("Code")
+
+local espreload = Section5:CreateButton("Reload ESP", function()
+     print("settings")
+    gui.Name = "ESP"; ---- properties of the esp
+    gui.ResetOnSpawn = false
+    gui.AlwaysOnTop = true;
+    gui.Active = true;
+    gui.LightInfluence = 0;
+    gui.Size = UDim2.new(10, 0, 7, 0);
+    gui.Enabled = true
+
+
+    
+    nameHEALTH.Name = "Health"
+    nameHEALTH.AnchorPoint = Vector2.new(0, 0)
+    nameHEALTH.BackgroundTransparency = 1
+    nameHEALTH.Size = UDim2.new(1.7, 1, 1.4, 1);
+    nameHEALTH.ZIndex = 10
+    nameHEALTH.Text = "Health"
+    nameHEALTH.BorderSizePixel = 0
+    nameHEALTH.Font = "GothamSemibold"
+    nameHEALTH.TextSize = esphealthsize
+    nameHEALTH.TextColor3 = Color3.fromRGB(7, 255, 44)
+
+    nameNAME.Name = "nAme"
+    nameNAME.AnchorPoint = Vector2.new(0, 0.25)
+    nameNAME.BackgroundTransparency = 1
+    nameNAME.Size = UDim2.new(1, 1, 1, 1);
+    nameNAME.ZIndex = 10
+    nameNAME.Text = "Name"
+    nameNAME.BorderSizePixel = 0
+    nameNAME.Font = "GothamSemibold"
+    nameNAME.TextSize = espnamesize
+    nameNAME.TextColor3 = Color3.new(espcolor)
+    
+    nameSTATUS.Name = "Status"
+    nameSTATUS.AnchorPoint = Vector2.new(0, 0.4)
+    nameSTATUS.BackgroundTransparency = 1
+    nameSTATUS.Size = UDim2.new(1, 1, 1, 1);
+    nameSTATUS.ZIndex = 10
+    nameSTATUS.Text = "Status"
+    nameSTATUS.BorderSizePixel = 0
+    nameSTATUS.Font = "GothamSemibold"
+    nameSTATUS.TextSize = espfontsize
+    nameSTATUS.TextColor3 = Color3.fromRGB(43, 42, 29)
+    for i,v in pairs (game:GetService("Players"):GetPlayers()) do
+        if v ~= game:GetService("Players").LocalPlayer and v.Character.Head:FindFirstChild("ESP") == nil  then
+            nameNAME.Text = v.Name
+            gui:Clone().Parent = v.Character.Head
+        end
+    end
+end)
+espreload:AddToolTip("Click this if new people join")
+
+
+-------------TC2
+
+local tc2Anti
+local tc2AntiType
+local delay
+local delayS
+local SPAMspeedvalue
+local spamtextvalue
+
+local Label2 = Section3:CreateLabel("Label 2")
+Label2:UpdateText("Aimbot will be added in the future.")
+
+local Aimbot = Section3:CreateButton("Load Aimbot", function()
+    pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Herrtt/AimHot-v8/master/Main.lua", true))()
+    end)
+end)
+
+
+local anti = Section3:CreateToggle("Anti-Aim", nil, function(State)
+	tc2Anti = State
+end)
+anti:AddToolTip("Makes you hard to hit.")
+
+--local antit = Section3:CreateDropdown("Type", {"Static","Random"}, function(String)
+--	tc2AntiType = String
+--end)
+--antit:AddToolTip("Anti-Aim mode")
+--antit:SetOption("Static")
+
+local pingspoof = Section3:CreateToggle("Force Delay", nil, function(State)
+    delay = State
+end)
+pingspoof:CreateKeybind("R", function(Key)
+	--print(Key)
+end)
+
+pingspoof:AddToolTip("Makes your ping rly high")
+
+local pingdelay = Section3:CreateSlider("Delay (seconds)", 0,10,nil,true, function(Value)
+	delayS = Value
+end)
+pingdelay:AddToolTip("How many seconds to delay your input")
+pingdelay:SetValue(1)
+
+local spam = Section3:CreateToggle("Spam Voice", nil, function(State)
+    print("on")
+    gen = require(game.Players.LocalPlayer.PlayerGui.GUI.Client.Functions.General)
+    local character = game.Players.LocalPlayer.Character
+    if State == true then
+        print("true")
+        local thread = coroutine.wrap(function()
+            while true do
+                print("spamming")
+                gen.playnoise(spamtextvalue)
+                wait(SPAMspeedvalue / 1000);
+            end
+        end)
+        coroutine.resume(thread)
+    else
+        print("false")
+        coroutine.yield(thread)
+    end
+print("Hello, World!") --// Prints all fine
+end)
+spam:AddToolTip("Spam voicelines")
+
+local spamspeed = Section3:CreateSlider("Delay (milliseconds)", 0,5000,nil,true, function(Value)
+	SPAMspeedvalue = Value
+end)
+spamspeed:AddToolTip("How fast to spam")
+spamspeed:SetValue(1000)
+
+local spamtext = Section3:CreateDropdown("Voiceline", {"Medic","Dispenser here","Nice Shot","Help","Incoming"}, function(String)
+	spamtextvalue = String
+end)
+spamtext:AddToolTip("What voiceline to spam")
+spamtext:SetOption("Medic")
+
+-------------UI Settings
+local Toggle3 = Section4:CreateToggle("UI Toggle", nil, function(State)
+	Window:Toggle(State)
+end)
+Toggle3:CreateKeybind(tostring(Config.Keybind):gsub("Enum.KeyCode.", ""), function(Key)
+	Config.Keybind = Enum.KeyCode[Key]
+end)
+Toggle3:SetState(true)
+
+local Colorpicker3 = Section4:CreateColorpicker("UI Color", function(Color)
+	Window:ChangeColor(Color)
+end)
+Colorpicker3:UpdateColor(Config.Color)
+
+-- credits to jan for patterns
+local Dropdown3 = Section4:CreateDropdown("Image", {"Default","Hearts","Abstract","Hexagon","Circles","Lace With Flowers","Floral"}, function(Name)
+	if Name == "Default" then
+		Window:SetBackground("2151741365")
+	elseif Name == "Hearts" then
+		Window:SetBackground("6073763717")
+	elseif Name == "Abstract" then
+		Window:SetBackground("6073743871")
+	elseif Name == "Hexagon" then
+		Window:SetBackground("6073628839")
+	elseif Name == "Circles" then
+		Window:SetBackground("6071579801")
+	elseif Name == "Lace With Flowers" then
+		Window:SetBackground("6071575925")
+	elseif Name == "Floral" then
+		Window:SetBackground("5553946656")
+	end
+end)
+Dropdown3:SetOption("Default")
+
+local Colorpicker4 = Section4:CreateColorpicker("Color", function(Color)
+	Window:SetBackgroundColor(Color)
+end)
+Colorpicker4:UpdateColor(Color3.new(1,1,1))
+
+local Slider3 = Section4:CreateSlider("Transparency",0,1,nil,false, function(Value)
+	Window:SetBackgroundTransparency(Value)
+end)
+Slider3:SetValue(0)
+
+local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value)
+	Window:SetTileScale(Value)
+end)
+Slider4:SetValue(0.5)
+
+
+
+local body = "UpperTorso"
+
+local vel = Instance.new("BodyVelocity")
+local forward = Instance.new("BodyVelocity")
+local up = Instance.new("BodyVelocity")
+up.maxForce = Vector3.new(10000,10000,10000)
+forward.maxForce = Vector3.new(10000,10000,10000)
+
+vel.maxForce = Vector3.new(9e9,9e9,9e9)
+
+
+
+
+        for _,v in next, game:GetService("Players"):GetPlayers() do
+            if v.Name ~= plr.Name then
+                for _,b in next, v.Character:GetChildren() do
+                    if not b:FindFirstChild("BoxHandleAdornment") then
+                        if b:IsA("MeshPart") or b.Name == "Head" or b.Name == "Torso" or b.Name == "Left Arm" or b.Name == "Right Arm" or b.Name == "Left Leg" or b.Name == "Right Leg" then
+                            --b.Transparency = 0
+                            local box2 = box:Clone()
+                            box2.Parent = b
+                            box2.AlwaysOnTop = true
+                            box2.Adornee = b
+                            box2.Size = b.Size * 1.1
+                            if b.Name == "Head" then
+                                box2.Color3 = Color3.new(1, 1, 0);
+                            else
+                                box2.Color3 = Color3.new(1, 0, 0);
+                            end
+                            if b.Name == "HumanoidRootPart" or b.Name == "UpperTorso" or b.Name == "LowerTorso" or b.Name == "Torso" then
+                                box2.Color3 = v.TeamColor.Color
+                            end
+                            box2.ZIndex = 9
+                            box2.Visible = false
+                        end
+                    end
+                end
+            end
+        end
+
+
+
+
+
+function getStatus(character)
+    local cond = character:FindFirstChild("Conditions")
+    local uber = cond.Ubercharged
+    local crits = cond.Critboosted
+
+    local spun = character.SpunUp
+    local maxhp = character.OMaxHealth
+    local currenthp = character.Humanoid.Health
+    if uber.Value == true then
+        return "UBER"
+    elseif currenthp > maxhp.Value then
+        return "HP+"
+    elseif spun.Value == true then
+        return "SPUN UP"
+    elseif character.UpperTorso.Transparency > 0.5 then --cloak
+        return "CLOAKED"
+    elseif crits.Value == true then
+        return "CRITS"
+    else
+        return ""
+    end
+end
+
+
+mouse = plr:GetMouse()
+
+game:GetService('RunService').Stepped:connect(function()
+    workspace.CurrentCamera.FieldOfView = visfov
+    
+        if visweapon then
+            for i,v in pairs(game.Workspace.CurrentCamera.Arms:GetChildren()) do
+                if v:IsA("Part") or v:IsA("MeshPart") then
+                    v.Color = Color3.new(math.round(visweaponcolor.R*-255),math.round(visweaponcolor.G*-255) ,math.round(visweaponcolor.B*-255))
+                    v.Material = Enum.Material[visweapontype]
+                end
+            end
+        end
+    
+        if tc2Anti then
+            game:GetService("ReplicatedStorage").Events.ControlTurn:FireServer(6)
+        end
+        
+        if delay then
+            settings():GetService("NetworkSettings").IncomingReplicationLag = delayS
+        else
+            settings():GetService("NetworkSettings").IncomingReplicationLag = 0
+        end
+    
+    
+        if espon then
+            if espignore then
+                for i,v in pairs (game:GetService("Players"):GetPlayers()) do
+                    if v ~= game:GetService("Players").LocalPlayer and v.Character.Head:FindFirstChild("ESP") ~= nil  then -- craeting checks for team check, local player etc
+                        
+                            if espname then
+                                v.Character.Head.ESP.nAme.Visible = true
+                                v.Character.Head.ESP.nAme.TextColor3 = Color3.new(espcolor.R,espcolor.G,espcolor.B)
+                                v.Character.Head.ESP.nAme.Font = espfont
+                                
+                                v.Character.Head.ESP.nAme.TextSize = espnamesize
+                            else
+                                v.Character.Head.ESP.nAme.Visible = false
+                            end
+                            if esphealth then
+                                v.Character.Head.ESP.Health.Visible = true
+                                v.Character.Head.ESP.Health.Text = math.round(v.Character.Humanoid.Health)
+                                v.Character.Head.ESP.Health.TextSize = esphealthsize
+                                v.Character.Head.ESP.Health.Font = espfont
+                            else
+                                v.Character.Head.ESP.Health.Visible = false
+                            end
+                            if espstatus then
+                                v.Character.Head.ESP.Status.Visible = true
+                                v.Character.Head.ESP.Status.Text = "*"..getStatus(v.Character).."*"
+                                v.Character.Head.ESP.Status.TextSize = espfontsize
+                                v.Character.Head.ESP.Status.Font = espfont
+                            else
+                                v.Character.Head.ESP.Status.Visible = false
+                            end
+                    end
+                end
+            else
+                for i,v in pairs (game:GetService("Players"):GetPlayers()) do
+                    if v.TeamColor ~= plr.TeamColor then
+                        if v ~= game:GetService("Players").LocalPlayer and v.Character.Head:FindFirstChild("ESP") ~= nil  then -- craeting checks for team check, local player etc
+                            
+                       if espname then
+                                v.Character.Head.ESP.nAme.Visible = true
+                                v.Character.Head.ESP.nAme.TextColor3 = Color3.new(espcolor.R,espcolor.G,espcolor.B)
+                                v.Character.Head.ESP.nAme.Font = espfont
+                                
+                                v.Character.Head.ESP.nAme.TextSize = espnamesize
+                            else
+                                v.Character.Head.ESP.nAme.Visible = false
+                            end
+                            if esphealth then
+                                v.Character.Head.ESP.Health.Visible = true
+                                v.Character.Head.ESP.Health.Text = math.round(v.Character.Humanoid.Health)
+                                v.Character.Head.ESP.Health.TextSize = esphealthsize
+                                v.Character.Head.ESP.Health.Font = espfont
+                            else
+                                v.Character.Head.ESP.Health.Visible = false
+                            end
+                            if espstatus then
+                                v.Character.Head.ESP.Status.Visible = true
+                                v.Character.Head.ESP.Status.Text = "*"..getStatus(v.Character).."*"
+                                v.Character.Head.ESP.Status.TextSize = espfontsize
+                                v.Character.Head.ESP.Status.Font = espfont
+                            else
+                                v.Character.Head.ESP.Status.Visible = false
+                            end
+                        end
+                    end
+                end
+            end
+        else
+            for i,v in pairs (game:GetService("Players"):GetPlayers()) do
+                if v ~= game:GetService("Players").LocalPlayer and v.Character.Head:FindFirstChild("ESP") ~= nil  then -- craeting checks for team check, local player etc
+                    v.Character.Head.ESP.nAme.Visible = false
+                    v.Character.Head.ESP.Health.Visible = false
+                    v.Character.Head.ESP.Status.Visible = false
+                    
+                end
+            end
+        end
+    
+        if visChams then
+            if teamonly then
+                for _,v in next, game:GetService("Players"):GetPlayers() do
+                    if v.Name ~= plr.Name then
+                        for _,b in next, v.Character:GetChildren() do
+                            if b:IsA("Part") or b:IsA("MeshPart") then
+                                if b:FindFirstChild("BoxHandleAdornment") then
+                                    if b.Name == "HumanoidRootPart" or b.Name == "UpperTorso" or b.Name == "LowerTorso" or b.Name == "Torso" then
+                                        b:FindFirstChild("BoxHandleAdornment").Color3 = v.TeamColor.Color
+                                    end
+                                    b:FindFirstChild("BoxHandleAdornment").Visible = true
+                                end
+                            end
+                        end
+                    end
+                end
+            else
+                for _,v in next, game:GetService("Players"):GetPlayers() do
+                    if v.TeamColor ~= plr.TeamColor then
+                        if v.Name ~= plr.Name then
+                            for _,b in next, v.Character:GetChildren() do
+                                if b:IsA("Part") or b:IsA("MeshPart") then
+                                    if b:FindFirstChild("BoxHandleAdornment") then
+                                        if b.Name == "HumanoidRootPart" or b.Name == "UpperTorso" or b.Name == "LowerTorso" or b.Name == "Torso" then
+                                            b:FindFirstChild("BoxHandleAdornment").Color3 = v.TeamColor.Color
+                                        end
+                                        b:FindFirstChild("BoxHandleAdornment").Visible = true
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        else
+            for _,v in next, game:GetService("Players"):GetPlayers() do
+                if v.Name ~= plr.Name then
+                    for _,b in next, v.Character:GetChildren() do
+                        if b:IsA("Part") or b:IsA("MeshPart") then
+                            if b:FindFirstChild("BoxHandleAdornment") then
+                                b:FindFirstChild("BoxHandleAdornment").Visible = false
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    
+    
+        if flyEnabled then
+            vel.Parent = plr.Character[body]
+            --plr.Character.Humanoid.Sit = true
+            if flyType == "Velocity" then
+                mouse.KeyDown:connect(function(key)
+                    local look = workspace.CurrentCamera.CoordinateFrame.lookVector
+                    if key == "w" then
+                        vel.velocity = look * flySpeed
+                    elseif key == "s" then
+                        vel.velocity = (look * -1) * flySpeed
+                    end
+                end)
+                mouse.KeyUp:connect(function(key)
+                    if key == "w" then
+                        vel.velocity = Vector3.new(0,0,0)
+                    elseif key == "s" then
+                        vel.velocity = Vector3.new(0,0,0)
+                    end
+                end)
+            elseif flyType == "Noclip" then
+                plr.Character.HumanoidRootPart.CFrame = plr.Character.HumanoidRootPart.CFrame + (workspace.CurrentCamera.CoordinateFrame.lookVector * flySpeed/50)
+            end
+            
+            
+            game:GetService("NetworkClient"):SetOutgoingKBPSLimit(flyLag)
+        else
+            vel.Parent = workspace
+            plr.Character.Humanoid.Sit = false
+            vel.velocity = Vector3.new(0,0,0)
+            game:GetService("NetworkClient"):SetOutgoingKBPSLimit(300)
+        end
+end)
